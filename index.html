@@ -425,7 +425,7 @@ body::before {
   const PETALS = ["🌸","🌺","✿","❀"];
   function spawnPetals() {
     petalContainer.innerHTML = "";
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 12; i++) {
       const el = document.createElement("div");
       el.className = "petal";
       el.textContent = PETALS[i % PETALS.length];
