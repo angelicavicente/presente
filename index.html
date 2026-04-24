@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Dia das Mães 💝</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --rose:   #d4608a;
+  --rose-l: #f0b0cc;
+  --rose-d: #9a3a60;
+  --blush:  #fdf0f6;
+  --gold:   #c8965a;
+  --gold-l: #eddcc4;
+  --cream:  #fdf7f4;
+  --ink:    #2d1f28;
+  --muted:  #8a6070;
+  --green:  #25D366;
+}
+
+html, body { height: 100%; width: 100%; }
+
+body {
+  background: var(--cream);
+  font-family: "DM Sans", sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 0% 0%, #fad8ee22 0%, transparent 55%),
+    radial-gradient(ellipse 60% 60% at 100% 100%, #f8d0e422 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, #fdeef830 0%, transparent 60%);
+  pointer-events: none; z-index: 0;
+}
+
+.petal {
+  position: fixed; pointer-events: none; z-index: 0;
+  opacity: 0; animation: petalDrift linear infinite;
+}
+@keyframes petalDrift {
+  0%   { transform: translateY(-30px) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.4; }
+  90%  { opacity: 0.25; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+#screen1, #screen2 {
+  position: relative; z-index: 1;
+  min-height: 100vh; width: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 2.5rem 1.5rem 3rem; text-align: center;
+}
+#screen2 { display: none; }
+
+/* TELA 1 */
+.s1-tag {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--rose); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 10px;
+}
+.s1-tag::before, .s1-tag::after {
+  content: ""; display: block;
+  width: 32px; height: 1px; background: var(--rose-l);
+}
+
+.s1-heading {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(24px, 6.5vw, 40px);
+  font-weight: 400; color: var(--ink);
+  line-height: 1.25; max-width: 400px; margin-bottom: 0.4rem;
+}
+.s1-heading em { font-style: italic; color: var(--rose); }
+
+.s1-sub {
+  font-size: 14px; color: var(--muted);
+  font-weight: 300; margin-bottom: 2rem;
+}
+
+.gift-scene {
+  cursor: pointer;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 1.2rem;
+  transition: transform 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.gift-scene:hover { transform: translateY(-6px); }
+.gift-scene:active { transform: scale(0.97); }
+
+.gift-img {
+  width: 220px; height: 220px;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 40px rgba(212,96,138,0.28)) drop-shadow(0 6px 14px rgba(154,58,96,0.18));
+  transition: filter 0.3s, transform 0.3s;
+  animation: giftFloat 4s ease-in-out infinite;
+}
+.gift-scene:hover .gift-img {
+  filter: drop-shadow(0 28px 52px rgba(212,96,138,0.38)) drop-shadow(0 8px 18px rgba(154,58,96,0.24));
+}
+@keyframes giftFloat {
+  0%,100% { transform: translateY(0) rotate(-1deg); }
+  50%      { transform: translateY(-8px) rotate(1deg); }
+}
+
+.click-hint {
+  font-size: 12px; font-weight: 400;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--gold);
+  display: flex; align-items: center; gap: 10px;
+  animation: breathe 2.4s ease-in-out infinite;
+}
+.click-hint::before, .click-hint::after {
+  content: ""; display: block;
+  width: 24px; height: 1px; background: var(--gold-l);
+}
+@keyframes breathe {
+  0%,100% { opacity: 0.45; }
+  50%      { opacity: 1; }
+}
+
+#screen1.leaving { animation: s1Leave 0.55s ease forwards; }
+@keyframes s1Leave {
+  to { opacity: 0; transform: scale(0.95); }
+}
+
+/* CONFETTI */
+.confetti-layer {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 200; overflow: hidden;
+}
+.cf { position: absolute; top: -16px; opacity: 0; border-radius: 2px; }
+@keyframes cfFall {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+  85%  { opacity: 1; }
+  100% { transform: translateY(108vh) rotate(720deg); opacity: 0; }
+}
+
+/* TELA 2 */
+#screen2.visible {
+  display: flex;
+  animation: s2Rise 0.85s cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes s2Rise {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+#screen2 {
+  overflow-y: auto;
+  padding: 2rem 1.2rem 3rem;
+  gap: 1rem; justify-content: flex-start;
+}
+
+.crown-wrap {
+  animation: float 3.8s ease-in-out infinite;
+  filter: drop-shadow(0 8px 24px rgba(200,150,90,0.35));
+  margin-top: 1rem;
+}
+@keyframes float {
+  0%,100% { transform: translateY(0) rotate(-1.5deg); }
+  50%      { transform: translateY(-10px) rotate(1.5deg); }
+}
+
+/* Card */
+.vale-card {
+  background: #fff;
+  border-radius: 20px;
+  max-width: 440px; width: 100%;
+  overflow: hidden;
+  box-shadow:
+    0 2px 0 var(--gold-l),
+    0 20px 60px rgba(212,96,138,0.14),
+    0 4px 16px rgba(0,0,0,0.06);
+}
+
+.card-header {
+  background: linear-gradient(135deg, #e07aa0 0%, #d4608a 50%, #b84878 100%);
+  padding: 1.8rem 2rem 1.6rem;
+  position: relative; overflow: hidden;
+}
+.card-header::before {
+  content: ""; position: absolute;
+  top: -40px; right: -40px;
+  width: 140px; height: 140px;
+  background: rgba(255,255,255,0.08); border-radius: 50%;
+}
+.card-header::after {
+  content: ""; position: absolute;
+  bottom: -30px; left: -30px;
+  width: 100px; height: 100px;
+  background: rgba(255,255,255,0.05); border-radius: 50%;
+}
+
+.card-eyebrow {
+  font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(255,255,255,0.75); margin-bottom: 0.5rem;
+  position: relative; z-index: 1;
+}
+.card-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(22px, 5.5vw, 30px);
+  font-weight: 500; color: #fff; line-height: 1.25;
+  position: relative; z-index: 1;
+}
+.card-title em { font-style: italic; font-weight: 400; }
+.card-subtitle {
+  font-size: 14px; color: rgba(255,255,255,0.85);
+  margin-top: 0.4rem; font-weight: 300;
+  position: relative; z-index: 1;
+}
+
+.card-body { padding: 1.8rem 2rem 1.4rem; }
+
+.items-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+.items-list li { display: flex; align-items: flex-start; gap: 1rem; text-align: left; }
+
+.item-icon {
+  flex-shrink: 0; width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--blush); border: 1px solid #f4c0d8;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; margin-top: 1px;
+}
+.item-text strong {
+  display: block; font-size: 14px; font-weight: 500;
+  color: var(--ink); line-height: 1.3;
+}
+.item-text span {
+  font-size: 12.5px; color: var(--muted); font-weight: 300;
+  line-height: 1.4; display: block; margin-top: 1px;
+}
+
+.card-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-l), transparent);
+  margin: 1.4rem 0;
+}
+
+.validity {
+  display: flex; align-items: center; gap: 0.75rem;
+  background: #fffaf0; border: 1px solid var(--gold-l);
+  border-radius: 10px; padding: 0.9rem 1rem;
+}
+.validity-icon { font-size: 20px; }
+.validity-text { text-align: left; }
+.validity-text strong { font-size: 13px; color: var(--ink); font-weight: 500; display: block; }
+.validity-text span  { font-size: 12px; color: var(--gold); font-weight: 300; }
+
+.card-footer { padding: 0 2rem 1.8rem; }
+.footer-sign {
+  font-family: "Playfair Display", serif; font-style: italic;
+  font-size: 14px; color: var(--muted); text-align: center;
+  margin-bottom: 1.2rem; line-height: 1.5;
+}
+
+.btn-whats {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; background: var(--green); color: #fff;
+  font-family: "DM Sans", sans-serif; font-size: 15px; font-weight: 500;
+  border: none; border-radius: 12px; padding: 15px 20px;
+  cursor: pointer; text-decoration: none;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.30);
+}
+.btn-whats:hover {
+  background: #1ebe57; transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(37,211,102,0.38);
+}
+.btn-whats:active { transform: scale(0.98); }
+
+.btn-reset {
+  background: none; border: none;
+  font-family: "DM Sans", sans-serif; font-size: 12px;
+  color: var(--muted); letter-spacing: 0.08em; cursor: pointer;
+  margin-top: 0.5rem; margin-bottom: 1rem;
+  text-decoration: underline; text-underline-offset: 3px;
+  opacity: 0.6; transition: opacity 0.2s;
+}
+.btn-reset:hover { opacity: 1; }
+
+.corner {
+  position: fixed; width: 48px; height: 48px;
+  opacity: 0.3; pointer-events: none; z-index: 0;
+}
+.c-tl { top:16px;left:16px; border-top:1.5px solid var(--rose-l);border-left:1.5px solid var(--rose-l); }
+.c-tr { top:16px;right:16px; border-top:1.5px solid var(--rose-l);border-right:1.5px solid var(--rose-l); }
+.c-bl { bottom:16px;left:16px; border-bottom:1.5px solid var(--rose-l);border-left:1.5px solid var(--rose-l); }
+.c-br { bottom:16px;right:16px; border-bottom:1.5px solid var(--rose-l);border-right:1.5px solid var(--rose-l); }
+</style>
+</head>
+<body>
+
+<div class="corner c-tl"></div>
+<div class="corner c-tr"></div>
+<div class="corner c-bl"></div>
+<div class="corner c-br"></div>
+<div class="confetti-layer" id="confettiLayer"></div>
+
+<!-- TELA 1 -->
+<section id="screen1">
+  <p class="s1-tag">Para você, mãe</p>
+  <h1 class="s1-heading">Você recebeu um presente de <em>alguém que te ama</em> 💝</h1>
+  <p class="s1-sub">Toque na caixa para descobrir</p>
+
+  <div class="gift-scene" onclick="openGift()" role="button" aria-label="Abrir presente">
+    <img class="gift-img" src="gift.png"/>    <p class="click-hint">Clique aqui para receber</p>
+  </div>
+</section>
+
+<!-- TELA 2 -->
+<section id="screen2">
+
+  <div class="crown-wrap">
+    <svg width="64" height="50" viewBox="0 0 64 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="cg1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f0d880"/><stop offset="100%" stop-color="#b88a28"/>
+        </linearGradient>
+        <linearGradient id="cg2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#d4a040"/><stop offset="100%" stop-color="#8a6010"/>
+        </linearGradient>
+      </defs>
+      <path d="M3 38 L9 12 L23 28 L32 4 L41 28 L55 12 L61 38Z" fill="url(#cg1)" stroke="#c89020" stroke-width="1.2" stroke-linejoin="round"/>
+      <rect x="3" y="37" width="58" height="11" rx="2.5" fill="url(#cg2)" stroke="#a07818" stroke-width="0.8"/>
+      <circle cx="32" cy="7"  r="3.5" fill="#d4608a"/>
+      <circle cx="15" cy="22" r="3"   fill="#d4608a"/>
+      <circle cx="49" cy="22" r="3"   fill="#d4608a"/>
+      <circle cx="16" cy="42" r="2"   fill="#fdf7f4" opacity="0.8"/>
+      <circle cx="32" cy="42" r="2"   fill="#fdf7f4" opacity="0.8"/>
+      <circle cx="48" cy="42" r="2"   fill="#fdf7f4" opacity="0.8"/>
+    </svg>
+  </div>
+
+  <div class="vale-card">
+    <div class="card-header">
+      <p class="card-eyebrow">Vale Presente · Dia das Mães 2026</p>
+      <h2 class="card-title">Você recebeu um<br><em>Dia de Rainha</em> 👑</h2>
+      <p class="card-subtitle">E sim… é tudo isso mesmo 😍</p>
+    </div>
+
+    <div class="card-body">
+      <ul class="items-list">
+        <li>
+          <div class="item-icon">⏰</div>
+          <div class="item-text">
+            <strong>3 horas inteirinhas só pra você</strong>
+            <span>Um dia inteirinho do seu jeito, mimos, carinho e atenção total</span>
+          </div>
+        </li>
+        <li>
+          <div class="item-icon">🍵</div>
+          <div class="item-text">
+            <strong>Chá especial pra começar</strong>
+            <span>Um mimo quentinho pra te acolher e desacelerar</span>
+          </div>
+        </li>
+        <li>
+          <div class="item-icon">🦶</div>
+          <div class="item-text">
+            <strong>SPA terapêutico dos pés</strong>
+            <span>Alívio, leveza e aquela sensação deliciosa de "tô nas nuvens"</span>
+          </div>
+        </li>
+        <li>
+          <div class="item-icon">✨</div>
+          <div class="item-text">
+            <strong>Limpeza de pele + revitalização facial</strong>
+            <span>Pele renovada, viçosa e radiante</span>
+          </div>
+        </li>
+        <li>
+          <div class="item-icon">💆</div>
+          <div class="item-text">
+            <strong>Massagem relaxante com aromaterapia</strong>
+            <span>Toques que derretem o corpo e aromas que abraçam a alma</span>
+          </div>
+        </li>        
+      </ul>
+
+      <div class="card-rule"></div>
+
+      <div class="validity">
+        <div class="validity-icon">🗓️</div>
+        <div class="validity-text">
+          <strong>Válido em maio ou junho de 2026</strong>
+          <span>Escolha seu momento especial 💛</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <div class="card-rule"></div>
+      <p class="footer-sign">Feito com carinho, pensado nos detalhes…<br>agora é só aproveitar e se deixar cuidar ♡</p>
+      <br>
+      <a class="btn-whats"
+         href="https://wa.me/5515988067216?text=Quero%20resgatar%20o%20vale-presente%20do%20meu%20dia%20de%20Rainha!"
+         target="_blank" rel="noopener noreferrer">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.534 5.845L.057 23.488a.5.5 0 00.608.627l5.82-1.527A11.947 11.947 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.502-5.236-1.378l-.375-.22-3.893 1.02 1.04-3.788-.241-.39A9.944 9.944 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+        </svg>
+        Reservar meu momento
+      </a>
+    </div>
+  </div>
+
+  <button class="btn-reset" onclick="resetGift()">← Ver de novo</button>
+
+</section>
+
+<script>
+  // ── Pétala: container fixo, sempre visível ──
+  const petalContainer = document.createElement("div");
+  petalContainer.style.cssText = "position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;";
+  document.body.appendChild(petalContainer);
+
+  const PETALS = ["🌸","🌺","✿","❀"];
+  function spawnPetals() {
+    petalContainer.innerHTML = "";
+    for (let i = 0; i < 8; i++) {
+      const el = document.createElement("div");
+      el.className = "petal";
+      el.textContent = PETALS[i % PETALS.length];
+      el.style.cssText =
+        "left:"+(10+Math.random()*80)+"%;"+
+        "font-size:"+(12+Math.random()*10)+"px;"+
+        "animation-duration:"+(14+Math.random()*12)+"s;"+
+        "animation-delay:"+(Math.random()*12)+"s;";
+      petalContainer.appendChild(el);
+    }
+  }
+  spawnPetals();
+
+  // ── Confetti ──
+  const COLS = ["#d4608a","#f0b0cc","#c8965a","#eddcc4","#fdf0f6","#e07aa0","#f8e090"];
+  function spawnConfetti() {
+    const layer = document.getElementById("confettiLayer");
+    layer.innerHTML = "";
+    for (let i = 0; i < 65; i++) {
+      const el = document.createElement("div");
+      el.className = "cf";
+      const s = 5 + Math.random() * 8;
+      el.style.cssText =
+        "left:"+Math.random()*100+"%;"+
+        "width:"+s+"px;"+
+        "height:"+(s*(0.4+Math.random()*0.9))+"px;"+
+        "background:"+COLS[Math.floor(Math.random()*COLS.length)]+";"+
+        "border-radius:"+(Math.random()>0.5?"50%":"2px")+";"+
+        "animation:cfFall "+(1.5+Math.random()*1.8)+"s ease "+(Math.random()*0.7)+"s forwards;";
+      layer.appendChild(el);
+    }
+    setTimeout(() => layer.innerHTML = "", 4500);
+  }
+
+  // ── Abrir presente ──
+  function openGift() {
+    const s1 = document.getElementById("screen1");
+    const s2 = document.getElementById("screen2");
+    s1.classList.add("leaving");
+    setTimeout(() => {
+      s1.style.display = "none";
+      // Reseta animação da tela 2 para funcionar novamente
+      s2.style.display = "flex";
+      s2.style.animation = "none";
+      void s2.offsetWidth; // força reflow
+      s2.style.animation = "";
+      s2.classList.add("visible");
+      spawnConfetti();
+      spawnPetals();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 500);
+  }
+
+  // ── Ver de novo ──
+  function resetGift() {
+    const s1 = document.getElementById("screen1");
+    const s2 = document.getElementById("screen2");
+    // Esconde tela 2
+    s2.classList.remove("visible");
+    s2.style.display = "none";
+    s2.style.animation = "none";
+    // Restaura tela 1
+    s1.style.animation = "none";
+    s1.classList.remove("leaving");
+    void s1.offsetWidth; // força reflow
+    s1.style.animation = "";
+    s1.style.opacity = "1";
+    s1.style.transform = "";
+    s1.style.display = "flex";
+    spawnPetals();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+</script>
+</body>
+</html>
